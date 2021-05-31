@@ -3,6 +3,8 @@ import java.util.*;
 
 public class JavaAcademy {
     public static void main(String[] args) throws IOException {
+	System.out.println("Enter your input: ");
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String input = reader.readLine();
 
