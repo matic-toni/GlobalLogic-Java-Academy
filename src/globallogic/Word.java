@@ -1,13 +1,15 @@
+package globallogic;
+
 import java.util.Set;
 
 public class Word implements Comparable<Word> {
 
     static int total;
 
-    Set<Character> set;
-    int number;
-    int count;
-    String frequency;
+    private final Set<Character> set;
+    private final int number;
+    private int count;
+    private String frequency;
 
     public Word(Set<Character> set, int number, int count) {
         this.set = set;
@@ -33,6 +35,10 @@ public class Word implements Comparable<Word> {
 
     public static void setTotal(int total) {
         Word.total = total;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public static int getTotal() {

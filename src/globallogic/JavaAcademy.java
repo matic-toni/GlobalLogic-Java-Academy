@@ -1,3 +1,5 @@
+package globallogic;
+
 import java.io.*;
 import java.util.*;
 
@@ -12,7 +14,7 @@ public class JavaAcademy {
         fileWriter.write("[Input]:\n" + input + "\n\n");
 
         String[] words = input.split(" ");
-        List<Word> word_list = new LinkedList<>();
+        List<Word> wordList = new LinkedList<>();
         int allLettersCnt = 0;
         int logicLettersCntTotal = 0;
         for(String word : words) {
@@ -20,7 +22,7 @@ public class JavaAcademy {
             // If two non-special letters are connected with a special one, they become part of the same new word.
             // Example: 'wo/r.d' becomes 'word'.
             // It is not clearly written in task what to do in this situation so I assumed this should happen.
-            // If it meant that I had to split that word into two, this regex should be connected with the space above in the split function.
+            // If it meant in task that I had to split that word into two, this regex should be connected with the space above in the split function.
             word = word.replaceAll("[!\"#$%&'()*+,-./:;\\\\<=>?@\\[\\]^_`{|}~]", "");
             word = word.toLowerCase();
 
@@ -30,6 +32,7 @@ public class JavaAcademy {
             for(int i = 0; i < word.length(); i++) {
                 allLettersCnt++;
 
+                // Finding some of 'logic' letters in word
                 if (Character.toString(word.charAt(i)).matches("[logic]")) {
                     logicCurrentWordCnt++;
                     logicLettersCntTotal++;
@@ -40,18 +43,19 @@ public class JavaAcademy {
             Word word_obj = new Word(charSet, word.length(), logicCurrentWordCnt);
 
             // If this element already exists in the list, just increase its count
-            if(word_list.contains(word_obj)) {
-                word_list.get(word_list.indexOf(word_obj)).count += logicCurrentWordCnt;
+            if(wordList.contains(word_obj)) {
+                int count = wordList.get(wordList.indexOf(word_obj)).getCount();
+                wordList.get(wordList.indexOf(word_obj)).setCount(count + logicCurrentWordCnt);
                 continue;
             }
 
             // If this word has some of the 'logic' letters, add it to list
             if(logicCurrentWordCnt > 0)
-                word_list.add(new Word(charSet, word.length(), logicCurrentWordCnt));
+                wordList.add(word_obj);
         }
 
         // Sorting list by frequencies
-        Collections.sort(word_list);
+        Collections.sort(wordList);
 
         // Setting static variable, which is used in toString() method
         Word.setTotal(logicLettersCntTotal);
@@ -59,7 +63,7 @@ public class JavaAcademy {
         fileWriter.write("[Output]:\n");
 
         // Printing frequencies for every element in the list
-        for(Word word : word_list) {
+        for(Word word : wordList) {
             word.setFrequency(String.format(Locale.US, "%.2f", + (double) word.getCount() / Word.getTotal()));
             System.out.println(word.toString());
 
